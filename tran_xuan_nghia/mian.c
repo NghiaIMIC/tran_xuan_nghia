@@ -1,9 +1,5 @@
 #include <stdio.h>
-
-int cong(int a, int b);
-int tru(int a, int b);
-int nhan(int a, int b);
-float chia(int a, int b);
+#include "toan.h"
 void main()
 {
 	int a = 0;
