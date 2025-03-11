@@ -78,6 +78,16 @@ void thaySoAmCuamang(float Array[], int size)
 	xuat_mang(Array, size);
 }
 
+// Câu 5: Viết chương trình in ra các giá trị lẻ trong mảng
+void oddElement(float Array[], int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (fmod(Array[i], 2.0) == 1)
+			printf("%.2f ", Array[i]);
+	}
+}
+
 void main() 
 {
 	float A[100];
@@ -87,11 +97,13 @@ void main()
 	nhap_mang(A, size);
 	printf("\nMang vua nhap la:\n");
 	xuat_mang(A, size);
-	printf("Tong mang: sum = %.2f\n",tong_mang(A, size));
-	printf("Trung binh cong cac phan tu le trong mang: avr = %.2f\n",avr_odd(A, size));
-	printf("Vi tri phan tu lon nhat trong mang: index = %d\n",index(A, size));
-	printf("mang ban dau\n");
+	printf("Cau 1: Tong mang: sum = %.2f\n",tong_mang(A, size));
+	printf("Cau 2: Trung binh cong cac phan tu le trong mang: avr = %.2f\n",avr_odd(A, size));
+	printf("Cau 3: Vi tri phan tu lon nhat trong mang: index = %d\n",index(A, size));
+	printf("Cau 4: Mang ban dau\n");
 	xuat_mang(A, size);
 	printf("Mang sau khi thay: \n");
 	thaySoAmCuamang(A, size);
+	printf("Cau 5: Cac gia tri le trong mang la: \n");
+	oddElement(A, size);
 }
