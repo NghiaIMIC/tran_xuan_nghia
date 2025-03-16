@@ -1,23 +1,30 @@
 ﻿#include <stdio.h>
-
-int main()
+void main()
 {
-	char str[] = "jhhjKhMnnJk";
-	int flag = 0;
-	int count = 0;
+	char str[] = "Xin chao moi nguoi";
 	int i = 0;
-	while (!flag)
+	while (1)
 	{
-		flag = 1;
-		if (str[i] != 0)
+		if (str[i] >= 97 && str[i] <= 122)
 		{
+			printf("%c", str[i] - 32);
+			if (str[i] == 0)
+				break;
 			i++;
-			
-			flag = 0;
 		}
-		if(str[i] >= 65 && str[i] <= 90 )
-			count++;
+		else if (str[i] >= 65 && str[i] <= 90)
+		{
+			printf("%c", str[i]);
+			i++;
+			continue;
+		}
+		else if (str[i] == 32)
+		{
+			printf("%c", str[i]);
+			i++;
+			continue;
+		}
+		else
+			break;
 	}
-	printf("So ky tu trong mang: %d\n", i + 1);
-	printf("So phan tu viet hoa trong chuoi: %d\n", count);
 }
