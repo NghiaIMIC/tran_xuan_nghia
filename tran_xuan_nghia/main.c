@@ -1,7 +1,7 @@
 ﻿#include <stdio.h>
 void main()
 {
-	char str[] = "xin chao moi nguoi";
+	char str[] = "Xin chao moi nguoi";
 	int i = 0;
 	while (1)
 	{
@@ -11,6 +11,12 @@ void main()
 			if (str[i] == 0)
 				break;
 			i++;
+		}
+		else if (str[i] >= 65 && str[i] <= 90)
+		{
+			printf("%c", str[i]);
+			i++;
+			continue;
 		}
 		else if (str[i] == 32)
 		{
