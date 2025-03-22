@@ -41,7 +41,7 @@ char* findWordInStr(char* str, char* arr)
 
 void main()
 {
-	char str[] = " abc subStr c";
+	char str[] = " hj jh jkh abc subStr c";
 	char arr[] = "subStr";
 	int i = 0;
 
