@@ -1,49 +1,61 @@
 ﻿#include <stdio.h>
+#include <string.h>
+#include <malloc.h>
 
-/* Câu 7: Truyền vào hàm findWordInStr() địa chỉ đầu của chuỗi str và địa chỉ đầu của chuỗi mẫu
-Hàm sẽ trả về địa chỉ bắt đầu của chuỗi mẫu trong chuỗi str */
-char* findWordInStr(char* str, char* arr)
+int soLuongKyTu(char* arr)
 {
-	int i = 0;
-	int j = 0;
-	while (1)
+	int SL = 0;
+	while (arr[SL] != 0)
+		SL++;
+	return SL;
+}
+char* TimKyTu(char* arr, char* subArr)
+{
+	int sizeArr = soLuongKyTu(arr);
+	int sizeArrSub = soLuongKyTu(subArr);
+	for (int i = 0; i < sizeArr; i++)
 	{
-		if (str[i] == arr[j])
+		int j;
+		for (j = 0; j < sizeArrSub; j++)
 		{
-
-			while (1)
-			{
-				
-				if (arr[j] == 0)
-					break;
-				if (str[i+j] == arr[j])
-				{
-					if (arr[j+1] == 0)
-					{
-						return str + i;
-					}
-					j++;
-				}
-				else
-				{
-					i = j;
-					break;
-				}
-			}
+			if (arr[i + j] != subArr[j])
+				break;
 		}
-		else if (str[i] == 0)
-			break;
-		i++;
-		j = 0;
+		if (j == sizeArrSub)
+			return arr + i;
 	}
 	return NULL;
 }
-
+int TrangThaiQuat(char* data)
+{
+	char* key = "\"fan\" : \"";
+	char* stt = TimKyTu(data, key);
+	stt += soLuongKyTu(key);
+	int count = 0;
+	while (stt[count] != '"')
+	{
+		count++;
+	}
+	char* status = malloc(count + 1);
+	memset(status, 0, count + 1);
+	memcpy(status, stt, count);
+	if (TimKyTu(status, "on") != 0)
+	{
+		free(status);
+		return 1;
+	}
+	else
+	{
+		free(status);
+		return 0;
+	}
+}
 void main()
 {
-	char str[] = " hj jh jkh abc subStr c";
-	char arr[] = "subStr";
-	int i = 0;
+	char data[] = "HTTP1.1 200 OK{"\
+		"\"light\": \"on\","\
+		"\"fan\" : \"off\","\
+		"\"motor\" : \"off\"}";
+	printf("%d\n", TrangThaiQuat(data));
 
-	printf("Cau 7: Dia chi dau tien cua chuoi mau trong chuoi str: %p\n", findWordInStr(str, arr));
 }
