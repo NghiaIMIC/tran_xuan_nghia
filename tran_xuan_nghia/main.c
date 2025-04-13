@@ -1,85 +1,74 @@
 ﻿#include <stdio.h>
-
+#include <stdlib.h>	
+#include <malloc.h>
 typedef struct
 {
-	int tu;
-	int mau;
-}phan_so_t;
+	char ten[50];
+	int tuoi;
+	char gioiTinh[10];
+	float diemToan;
+	float diemVan;
+	float diemTrungBinh;
+	char xepLoai[20];
 
-int UocChungLonNhat(phan_so_t A)
+}hoc_sinh;
+
+void NhapDuLieuHS(hoc_sinh A[], int soLuongHocSinh)
 {
-	if (A.tu < 0 || A.mau < 0)
+	for (int i = 0; i < soLuongHocSinh; i++)
 	{
-		A.tu = A.tu * (-1);
-		A.mau = A.mau * (-1);
+		printf("\n=== Nhap thong tin hoc sinh %d ===\n", i + 1);
+		printf("Nhap ten hoc sinh: ");
+		getchar();
+		fgets(&A[i].ten, sizeof(A[i].ten), stdin);
+		printf("Nhap tuoi hoc sinh: ");
+		scanf_s("%d", &A[i].tuoi);
+		printf("Nhap gioi tinh hoc sinh: ");
+		getchar();
+		fgets(&A[i].gioiTinh, sizeof(A[i].gioiTinh), stdin);
+		printf("Nhap diem toan cua hoc sinh: ");
+		scanf_s("%f", &A[i].diemToan);
+		printf("Nhap diem van cua hoc sinh: ");
+		scanf_s("%f", &A[i].diemVan);
 	}
-	int min = A.tu;
-	int max = 0;
-	if (A.tu > A.mau)
-		min = A.mau;
-	for (int i = 1; i <= min; i++)
+}
+
+float DiemTrungBinh(hoc_sinh A[], int soLuongHocSinh)
+{
+	float max = A[0].diemTrungBinh;
+	for (int i = 0; i < soLuongHocSinh - 1; i++)
 	{
-		if (A.tu % i == 0 && A.mau % i == 0)
-			max = i;
+		if (max < A[i + 1].diemTrungBinh)
+			max = A[i + 1].diemTrungBinh;
+
 	}
 	return max;
 }
 
-phan_so_t RutGonPhanSo(phan_so_t A)
+void list(hoc_sinh A[], int soLuongHocSinh)
 {
-	int ucln = UocChungLonNhat(A);
-	phan_so_t pstg;
-	pstg.tu = A.tu / ucln;
-	pstg.mau = A.mau / ucln;
-	return pstg;
+	printf("\n");
+	printf("=== Danh sach hoc sinh ===\n");
+	for (int i = 0; i < soLuongHocSinh; i++)
+	{
+		printf("\tHoc sinh %d\n", i + 1);
+		printf("\tTen HS: %s", A[i].ten);
+		printf("\tTuoi: %d\n", A[i].tuoi);
+		printf("\tGioi Tinh: %s", A[i].gioiTinh);
+		printf("\tDiem Toan: %.2f\n", A[i].diemToan);
+		printf("\tDiem Van: %.2f\n", A[i].diemVan);
+		printf("\tDiem Trung Binh Toan va Van: %.2f\n", (A[i].diemToan + A[i].diemVan) / 2.0);
+	}
 }
-
-phan_so_t CongPhanSo(phan_so_t A, phan_so_t B)
-{
-	phan_so_t sum;
-	sum.tu = A.tu * B.mau + B.tu * A.mau;
-	sum.mau = A.mau * B.mau;
-	sum = RutGonPhanSo(sum);
-	return sum;
-}
-
-phan_so_t TruPhanSo(phan_so_t A, phan_so_t B)
-{
-	phan_so_t sub;
-	sub.tu = A.tu * B.mau - B.tu * A.mau;
-	sub.mau = A.mau * B.mau;
-	//sub = RutGonPhanSo(sub);
-	return sub;
-}
-
-phan_so_t NhanPhanSo(phan_so_t A, phan_so_t B)
-{
-	phan_so_t mul;
-	mul.tu = A.tu * B.tu;
-	mul.mau = A.mau * B.mau;
-	mul = RutGonPhanSo(mul);
-	return mul;
-}
-
-phan_so_t ChiaPhanSo(phan_so_t A, phan_so_t B)
-{
-	phan_so_t div;
-	div.tu = A.tu * B.mau;
-	div.mau = A.mau * B.tu;
-	div = RutGonPhanSo(div);
-	return div;
-}
-
 void main()
 {
-	phan_so_t A = {.tu = 1, .mau = 2};
-	phan_so_t B = {.tu = 2, .mau = 3};
-	phan_so_t sum = CongPhanSo(A, B);
-	phan_so_t sub = TruPhanSo(A, B);
-	phan_so_t mul = NhanPhanSo(A, B);
-	phan_so_t div = ChiaPhanSo(A, B);
-	printf("%d/%d + %d/%d = %d/%d\n", A.tu, A.mau, B.tu, B.mau, sum.tu, sum.mau);
-	printf("%d/%d - %d/%d = %d/%d\n", A.tu, A.mau, B.tu, B.mau, sub.tu, sub.mau);
-	printf("%d/%d * %d/%d = %d/%d\n", A.tu, A.mau, B.tu, B.mau, mul.tu, mul.mau);
-	printf("%d/%d : %d/%d = %d/%d\n", A.tu, A.mau, B.tu, B.mau, div.tu, div.mau);
+	int n = 0;
+	printf("nhap tu ban phim, so luong hoc sinh: ");
+	scanf_s("%d", &n);
+	hoc_sinh* x = (hoc_sinh*)malloc(n * sizeof(hoc_sinh));
+	NhapDuLieuHS(x, n);
+	list(x, n);
+	printf("\n");
+	printf("Hoc sinh co diem trung binh Toan va Van cao nhat: %f", DiemTrungBinh(x, n));
+	free(x);
 }
