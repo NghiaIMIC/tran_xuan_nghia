@@ -1,74 +1,59 @@
 ﻿#include <stdio.h>
-#include <stdlib.h>	
 #include <malloc.h>
+
 typedef struct
 {
-	char ten[50];
-	int tuoi;
-	char gioiTinh[10];
-	float diemToan;
-	float diemVan;
-	float diemTrungBinh;
-	char xepLoai[20];
+	int value;
+	void* previous_node;
+}node_t;
 
-}hoc_sinh;
-
-void NhapDuLieuHS(hoc_sinh A[], int soLuongHocSinh)
+typedef struct
 {
-	for (int i = 0; i < soLuongHocSinh; i++)
+	node_t* last_node;
+	int len;
+}linked_list_t;
+
+linked_list_t ll;
+// Câu 3: Thêm một node vào cuối linked_list
+void add(linked_list_t* list, int value)
+{
+	node_t* new_node = malloc(sizeof(node_t));
+	new_node->value = value;
+	new_node->previous_node = list->last_node;
+	list->last_node = new_node;
+	list->len++;
+}
+// Câu 4: Chèn môt node vào list
+void Insert(linked_list_t* list, int value, int index)
+{
+	if (index == list->len)
+		add(&ll, 10);
+	else
 	{
-		printf("\n=== Nhap thong tin hoc sinh %d ===\n", i + 1);
-		printf("Nhap ten hoc sinh: ");
-		getchar();
-		fgets(&A[i].ten, sizeof(A[i].ten), stdin);
-		printf("Nhap tuoi hoc sinh: ");
-		scanf_s("%d", &A[i].tuoi);
-		printf("Nhap gioi tinh hoc sinh: ");
-		getchar();
-		fgets(&A[i].gioiTinh, sizeof(A[i].gioiTinh), stdin);
-		printf("Nhap diem toan cua hoc sinh: ");
-		scanf_s("%f", &A[i].diemToan);
-		printf("Nhap diem van cua hoc sinh: ");
-		scanf_s("%f", &A[i].diemVan);
+		//tạo node mới
+		node_t* new_node = (node_t*)malloc(sizeof(node_t));
+		new_node->value = value;
+
+		node_t* current = list->last_node;
+		for (int i = list->len - 1; i > index; i--)
+		{
+			current = (node_t*)current->previous_node;
+		}
+
+		// Cập nhật liên kết node
+		new_node->previous_node = current->previous_node;
+		current->previous_node = new_node;
 	}
+    list->len++;
 }
 
-float DiemTrungBinh(hoc_sinh A[], int soLuongHocSinh)
-{
-	float max = A[0].diemTrungBinh;
-	for (int i = 0; i < soLuongHocSinh - 1; i++)
-	{
-		if (max < A[i + 1].diemTrungBinh)
-			max = A[i + 1].diemTrungBinh;
-
-	}
-	return max;
-}
-
-void list(hoc_sinh A[], int soLuongHocSinh)
-{
-	printf("\n");
-	printf("=== Danh sach hoc sinh ===\n");
-	for (int i = 0; i < soLuongHocSinh; i++)
-	{
-		printf("\tHoc sinh %d\n", i + 1);
-		printf("\tTen HS: %s", A[i].ten);
-		printf("\tTuoi: %d\n", A[i].tuoi);
-		printf("\tGioi Tinh: %s", A[i].gioiTinh);
-		printf("\tDiem Toan: %.2f\n", A[i].diemToan);
-		printf("\tDiem Van: %.2f\n", A[i].diemVan);
-		printf("\tDiem Trung Binh Toan va Van: %.2f\n", (A[i].diemToan + A[i].diemVan) / 2.0);
-	}
-}
 void main()
 {
-	int n = 0;
-	printf("nhap tu ban phim, so luong hoc sinh: ");
-	scanf_s("%d", &n);
-	hoc_sinh* x = (hoc_sinh*)malloc(n * sizeof(hoc_sinh));
-	NhapDuLieuHS(x, n);
-	list(x, n);
-	printf("\n");
-	printf("Hoc sinh co diem trung binh Toan va Van cao nhat: %f", DiemTrungBinh(x, n));
-	free(x);
+	add(&ll, 1);
+	add(&ll, 2);
+	add(&ll, 3);
+	add(&ll, 4);
+    add(&ll, 5);
+    Insert(&ll, 6, 3);
+
 }
